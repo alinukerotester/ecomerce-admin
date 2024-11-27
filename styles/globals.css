@@ -1,3 +1,29 @@
+/* Tailwind CSS Directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global styles */
+
+/* Google logo letter colors */
+.google-logo .letter {
+  font-weight: bold;
+  font-size: 1.2rem;
+  display: inline-block;
+}
+
+.google-logo .letter-0 {
+  color: #4285f4; /* Albastru */
+}
+
+.google-logo .letter-1 {
+  color: #ea4335; /* Roșu */
+}
+
+.google-logo .letter-2 {
+  color: #fbbc05; /* Galben */
+}
+
+.google-logo .letter-3 {
+  color: #34a853; /* Verde */
+}
