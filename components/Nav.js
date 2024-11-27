@@ -1,10 +1,12 @@
 import Link from "next/link";
 
 export default function Nav() {
+  const inactiveLink = "flex gap-1 p-1";
+  const activeLink = inactiveLink + " bg-white text-blue-900 rounded-l-lg";
   return (
-    <aside className="text-white p-4">
+    <aside className="text-white p-4 pr-0">
       <div>
-        <Link href={"/"} className="flex">
+        <Link href={"/"} className="flex gap-1 mb-4 mr-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -21,8 +23,8 @@ export default function Nav() {
           </svg>
           <span>EcomerceAdmin</span>
         </Link>
-        <nav>
-          <Link href={"/"}>
+        <nav className="flex flex-col gap-2">
+          <Link href={"/"} className={activeLink}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -39,7 +41,7 @@ export default function Nav() {
             </svg>
             Dashboard
           </Link>
-          <Link href={"/"}>
+          <Link href={"/products"} className={inactiveLink}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -56,7 +58,7 @@ export default function Nav() {
             </svg>
             Products
           </Link>
-          <Link href={"/"}>
+          <Link href={"/orders"} className={inactiveLink}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -73,7 +75,7 @@ export default function Nav() {
             </svg>
             Orders
           </Link>
-          <Link href={"/"}>
+          <Link href={"/settings"} className={inactiveLink}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
