@@ -18,8 +18,23 @@ export default function Products() {
       >
         Add new product
       </Link>
-      <table>
-        <thead></thead>
+      <table className="basic mt-2">
+        <thead>
+          <tr>
+            <td>Product name</td>
+            <td></td>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product) => (
+            <tr key={product._id}>
+              <td>{product.title}</td>
+              <td>
+                <Link href={"/products" + product._id}>Edit</Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </Layout>
   );
