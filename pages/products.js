@@ -47,8 +47,6 @@ export default function Products() {
                   </svg>
                   Edit
                 </Link>
-                {/* am comentat linia de mai jos pentru copy paste */}
-                {/* <Link href={"/products" + product._id}>Edit</Link> */}
               </td>
             </tr>
           ))}
