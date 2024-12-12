@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
@@ -7,11 +8,12 @@ export default function ProductForm({
 	title: existingTitle,
 	description: existingDescription,
 	price: existingPrice,
-	images,
+	images: existingImages,
 }) {
 	const [title, setTitle] = useState(existingTitle || '');
 	const [description, setDescription] = useState(existingDescription || '');
 	const [price, setPrice] = useState(existingPrice || '');
+	const [images, setImages] = useState(existingImages || []);
 	const [goToProducts, setGoToProducts] = useState(false);
 	const router = useRouter();
 	async function saveProduct(ev) {
@@ -36,8 +38,9 @@ export default function ProductForm({
 			for (const file of files) {
 				data.append('file', file);
 			}
-			const res = await axios.post('/api/upload', data, {
-				headers: { 'Content-Type': 'multipart/form-data' },
+			const res = await axios.post('/api/upload', data);
+			setImages((oldImages) => {
+				return [...oldImages, ...res.data.links];
 			});
 		}
 	}
@@ -51,7 +54,20 @@ export default function ProductForm({
 				onChange={(ev) => setTitle(ev.target.value)}
 			/>
 			<label>Photos</label>
-			<div className='mb-2'>
+			<div className='mb-2 flex flex-wrap gap-2'>
+				{!!images?.length &&
+					images.map((link) => (
+						<div
+							key={link}
+							className='h-24 w-24 relative rounded-lg overflow-hidden'>
+							<Image
+								src={link}
+								alt='any image'
+								layout='fill' // Setează imaginea să ocupe tot spațiul părintelui
+								objectFit='cover' // Redimensionează imaginea proporțional, fără a o deforma
+							/>
+						</div>
+					))}
 				<label className='w-24 h-24 cursor-pointer text-center flex items-center justify-center text-sm gap-1 text-gray-500 rounded-lg bg-gray-200'>
 					<svg
 						xmlns='http://www.w3.org/2000/svg'
