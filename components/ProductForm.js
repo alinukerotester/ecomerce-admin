@@ -85,7 +85,6 @@ export default function ProductForm({
 					<div>Upload</div>
 					<input type='file' onChange={uploadImages} className='hidden' />
 				</label>
-				{!images?.length && <div>No photos in this product</div>}
 			</div>
 			<label>Description</label>
 			<textarea
