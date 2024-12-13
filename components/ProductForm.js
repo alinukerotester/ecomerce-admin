@@ -15,13 +15,21 @@ export default function ProductForm({
 	const [title, setTitle] = useState(existingTitle || '');
 	const [description, setDescription] = useState(existingDescription || '');
 	const [price, setPrice] = useState(existingPrice || '');
-	const [images, setImages] = useState(existingImages || []);
+	const [images, setImages] = useState(
+		existingImages?.map((link) => ({ id: link, src: link })) || [],
+	);
 	const [goToProducts, setGoToProducts] = useState(false);
 	const [isUploading, setIsUploading] = useState(false);
 	const router = useRouter();
+
 	async function saveProduct(ev) {
 		ev.preventDefault();
-		const data = { title, description, price, images };
+		const data = {
+			title,
+			description,
+			price,
+			images: images.map((image) => image.src), // Doar link-urile sunt salvate
+		};
 		if (_id) {
 			//UPDATE
 			await axios.put('/api/products', { ...data, _id });
@@ -31,9 +39,11 @@ export default function ProductForm({
 		}
 		setGoToProducts(true);
 	}
+
 	if (goToProducts) {
 		router.push('/products');
 	}
+
 	async function uploadImages(ev) {
 		const files = ev.target?.files;
 		if (files?.length > 0) {
@@ -43,15 +53,18 @@ export default function ProductForm({
 				data.append('file', file);
 			}
 			const res = await axios.post('/api/upload', data);
-			setImages((oldImages) => {
-				return [...oldImages, ...res.data.links];
-			});
+			setImages((oldImages) => [
+				...oldImages,
+				...res.data.links.map((link) => ({ id: link, src: link })),
+			]);
 			setIsUploading(false);
 		}
 	}
-	function updateImagesOrder(images) {
-		setImages(images);
+
+	function updateImagesOrder(newImages) {
+		setImages(newImages);
 	}
+
 	return (
 		<form onSubmit={saveProduct}>
 			<label>Product name</label>
@@ -65,18 +78,18 @@ export default function ProductForm({
 			<div className='mb-2 flex flex-wrap gap-1'>
 				<ReactSortable
 					list={images}
-					className='flex flex-wrap gap-1'
-					setList={updateImagesOrder}>
+					setList={updateImagesOrder}
+					className='flex flex-wrap gap-1'>
 					{!!images?.length &&
-						images.map((link) => (
+						images.map((image) => (
 							<div
-								key={link}
+								key={image.id}
 								className='h-24 w-24 relative rounded-lg overflow-hidden'>
 								<Image
-									src={link}
+									src={image.src}
 									alt='any image'
-									layout='fill' // Setează imaginea să ocupe tot spațiul părintelui
-									objectFit='cover' // Redimensionează imaginea proporțional, fără a o deforma
+									layout='fill'
+									objectFit='cover'
 								/>
 							</div>
 						))}
