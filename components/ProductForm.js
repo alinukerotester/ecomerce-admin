@@ -18,7 +18,7 @@ export default function ProductForm({
 	const router = useRouter();
 	async function saveProduct(ev) {
 		ev.preventDefault();
-		const data = { title, description, price };
+		const data = { title, description, price, images };
 		if (_id) {
 			//UPDATE
 			await axios.put('/api/products', { ...data, _id });
