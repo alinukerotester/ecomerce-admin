@@ -19,7 +19,7 @@ function Categories({ swal }) {
 	async function saveCategory(ev) {
 		ev.preventDefault();
 		const data = { name, parentCategory };
-		if (editCategory) {
+		if (editedCategory) {
 			data._id = editedCategory._id;
 			axios.put('/api/categories', data);
 			setEditedCategory(null);
@@ -27,6 +27,7 @@ function Categories({ swal }) {
 			await axios.post('/api/categories', data);
 		}
 		setName('');
+		setParentCategory('');
 		fetchCategories();
 	}
 	function editCategory(category) {
