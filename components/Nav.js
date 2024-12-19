@@ -108,6 +108,26 @@ export default function Nav() {
 							/>
 						</svg>
 						Orders
+					</Link>{' '}
+					<Link
+						href={'/admins'}
+						className={
+							pathname.includes('/admins') ? activeLink : inactiveLink
+						}>
+						<svg
+							xmlns='http://www.w3.org/2000/svg'
+							fill='none'
+							viewBox='0 0 24 24'
+							strokeWidth={1.5}
+							stroke='currentColor'
+							className='size-6'>
+							<path
+								strokeLinecap='round'
+								strokeLinejoin='round'
+								d='M12 14c-2.485 0-4.5-2.015-4.5-4.5S9.515 5 12 5s4.5 2.015 4.5 4.5-2.015 4.5-4.5 4.5Zm0 0v6m0 0h-3m3 0h3'
+							/>
+						</svg>
+						Admins
 					</Link>
 					<Link
 						href={'/settings'}
