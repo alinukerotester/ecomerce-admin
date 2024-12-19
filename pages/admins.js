@@ -1,7 +1,7 @@
 import Layout from '@/components/Layout';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 export default function Admins() {
 	const { data: session, status } = useSession();
