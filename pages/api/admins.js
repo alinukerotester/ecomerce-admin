@@ -4,6 +4,15 @@ import Admin from '../../models/Admin';
 export default async function handler(req, res) {
 	const { method } = req;
 
+	// Verifică dacă utilizatorul este admin
+	try {
+		await isAdminRequest(req, res); // Verifică dacă utilizatorul este admin înainte de a continua
+	} catch (error) {
+		return res
+			.status(401)
+			.json({ message: 'Unauthorized: Only admins can perform this action' });
+	}
+
 	await mongooseConnect(); // Conectează-te la MongoDB cu Mongoose
 
 	// GET: Obține toți adminii

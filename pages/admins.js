@@ -1,35 +1,41 @@
 import Layout from '@/components/Layout';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useState, useEffect, useCallback } from 'react';
 
 export default function Admins() {
+	const { data: session, status } = useSession();
 	const [admins, setAdmins] = useState([]);
 	const [newAdminEmail, setNewAdminEmail] = useState('');
-	const [editedAdmin, setEditedAdmin] = useState(null); // Stare pentru urmărirea adminului care este editat
-	const [editedEmail, setEditedEmail] = useState(''); // Stare pentru email-ul editat
+	const [editedAdmin, setEditedAdmin] = useState(null);
+	const [editedEmail, setEditedEmail] = useState('');
 
-	useEffect(() => {
-		fetchAdmins();
-	}, []);
-
-	// Obține lista de admini de la API
-	const fetchAdmins = async () => {
-		const response = await axios.get('/api/admins'); // Adaptează la endpoint-ul API-ului tău
-		setAdmins(response.data);
-	};
+	// Memorează fetchAdmins pentru a preveni recrearea la fiecare render
+	const fetchAdmins = useCallback(async () => {
+		try {
+			const response = await axios.get('/api/admins');
+			setAdmins(response.data);
+		} catch (error) {
+			console.error('Error fetching admins:', error);
+		}
+	}, []); // Nu mai ai nevoie de `session` ca dependență
 
 	// Adaugă un admin nou
 	const addAdmin = async (email) => {
-		await axios.post('/api/admins', { email });
-		setNewAdminEmail('');
-		fetchAdmins(); // Reîmprospătează lista de admini
+		try {
+			await axios.post('/api/admins', { email });
+			setNewAdminEmail('');
+			fetchAdmins(); // Reîmprospătează lista după adăugare
+		} catch (error) {
+			console.error('Error adding admin:', error);
+		}
 	};
 
 	// Șterge un admin
 	const removeAdmin = async (email) => {
 		try {
-			await axios.delete('/api/admins', { data: { email } }); // Trimite email-ul în body
-			fetchAdmins(); // Reîmprospătează lista de admini
+			await axios.delete('/api/admins', { data: { email } });
+			fetchAdmins(); // Reîmprospătează lista după ștergere
 		} catch (error) {
 			console.error('Eroare la ștergerea adminului:', error);
 		}
@@ -37,10 +43,23 @@ export default function Admins() {
 
 	// Actualizează email-ul unui admin
 	const updateAdmin = async (oldEmail, newEmail) => {
-		await axios.put('/api/admins', { oldEmail, newEmail }); // Trimite cererea PUT
-		setEditedAdmin(null); // Resetează starea de editare
-		fetchAdmins(); // Reîncarcă lista de admini
+		try {
+			await axios.put('/api/admins', { oldEmail, newEmail });
+			setEditedAdmin(null);
+			fetchAdmins(); // Reîmprospătează lista după actualizare
+		} catch (error) {
+			console.error('Error updating admin:', error);
+		}
 	};
+
+	// Verifică starea sesiunii
+	if (status === 'loading') {
+		return <p>Loading...</p>;
+	}
+
+	if (status === 'unauthenticated') {
+		return <p>You are not authorized to view this page.</p>;
+	}
 
 	return (
 		<Layout>
@@ -95,7 +114,7 @@ export default function Admins() {
 									<button
 										onClick={() => {
 											setEditedAdmin(admin.email);
-											setEditedEmail(admin.email); // Setează email-ul de editat
+											setEditedEmail(admin.email);
 										}}
 										className='bg-yellow-500 text-white p-1 rounded'>
 										Editează

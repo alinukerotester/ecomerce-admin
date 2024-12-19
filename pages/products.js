@@ -1,15 +1,27 @@
 import Layout from '@/components/Layout';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function Products() {
+	const { data: session, status } = useSession();
 	const [products, setProducts] = useState([]);
 	useEffect(() => {
 		axios.get('/api/products').then((response) => {
 			setProducts(response.data);
 		});
 	}, []);
+
+	// Verifică starea sesiunii
+	if (status === 'loading') {
+		return <p>Loading...</p>;
+	}
+
+	if (status === 'unauthenticated') {
+		return <p>You are not authorized to view this page.</p>;
+	}
+
 	return (
 		<Layout>
 			<Link

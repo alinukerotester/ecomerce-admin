@@ -5,7 +5,15 @@ import { isAdminRequest } from './auth/[...nextauth]';
 export default async function handle(req, res) {
 	const { method } = req;
 	await mongooseConnect();
-	await isAdminRequest(req, res);
+
+	// Verifică dacă utilizatorul este admin
+	try {
+		await isAdminRequest(req, res); // Verifică dacă utilizatorul este admin înainte de a continua
+	} catch (error) {
+		return res
+			.status(401)
+			.json({ message: 'Unauthorized: Only admins can perform this action' });
+	}
 
 	if (method === 'GET') {
 		if (req.query?.id) {
