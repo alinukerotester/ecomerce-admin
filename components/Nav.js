@@ -4,7 +4,9 @@ import { useRouter } from 'next/router';
 
 export default function Nav() {
 	const inactiveLink = 'flex gap-1 p-1';
-	const activeLink = inactiveLink + ' bg-white text-blue-900 rounded-l-lg';
+	const activeLink = inactiveLink + ' bg-highlight text-black rounded-sm';
+	const inactiveIcon = 'size-6';
+	const activeIcon = inactiveIcon + ' text-primary';
 	const router = useRouter();
 	const { pathname } = router;
 	async function logout() {
@@ -12,7 +14,7 @@ export default function Nav() {
 		await signOut();
 	}
 	return (
-		<aside className='text-white p-4 pr-0'>
+		<aside className='text-gray-500 p-4'>
 			<div>
 				<Link href={'/'} className='flex gap-1 mb-4 mr-4'>
 					<svg
@@ -40,7 +42,7 @@ export default function Nav() {
 							viewBox='0 0 24 24'
 							strokeWidth={1.5}
 							stroke='currentColor'
-							className='size-6'>
+							className={pathname === '/' ? activeIcon : inactiveIcon}>
 							<path
 								strokeLinecap='round'
 								strokeLinejoin='round'
@@ -60,7 +62,7 @@ export default function Nav() {
 							viewBox='0 0 24 24'
 							strokeWidth={1.5}
 							stroke='currentColor'
-							className='size-6'>
+							className={pathname === '/products' ? activeIcon : inactiveIcon}>
 							<path
 								strokeLinecap='round'
 								strokeLinejoin='round'
@@ -80,7 +82,9 @@ export default function Nav() {
 							viewBox='0 0 24 24'
 							strokeWidth={1.5}
 							stroke='currentColor'
-							className='size-6'>
+							className={
+								pathname.includes('/categories') ? activeIcon : inactiveIcon
+							}>
 							<path
 								strokeLinecap='round'
 								strokeLinejoin='round'
@@ -100,7 +104,9 @@ export default function Nav() {
 							viewBox='0 0 24 24'
 							strokeWidth={1.5}
 							stroke='currentColor'
-							className='size-6'>
+							className={
+								pathname.includes('/orders') ? activeIcon : inactiveIcon
+							}>
 							<path
 								strokeLinecap='round'
 								strokeLinejoin='round'
@@ -120,7 +126,9 @@ export default function Nav() {
 							viewBox='0 0 24 24'
 							strokeWidth={1.5}
 							stroke='currentColor'
-							className='size-6'>
+							className={
+								pathname.includes('/admins') ? activeIcon : inactiveIcon
+							}>
 							<path
 								strokeLinecap='round'
 								strokeLinejoin='round'
@@ -140,7 +148,9 @@ export default function Nav() {
 							viewBox='0 0 24 24'
 							strokeWidth={1.5}
 							stroke='currentColor'
-							className='size-6'>
+							className={
+								pathname.includes('/settings') ? activeIcon : inactiveIcon
+							}>
 							<path
 								strokeLinecap='round'
 								strokeLinejoin='round'
