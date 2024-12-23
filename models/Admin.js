@@ -6,6 +6,7 @@ const AdminSchema = new mongoose.Schema({
 		required: true,
 		unique: true,
 		trim: true,
+		match: [/\S+@\S+\.\S+/, 'Please enter a valid email address'],
 	},
 });
 

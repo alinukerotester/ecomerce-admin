@@ -14,7 +14,12 @@ async function getAdminEmails() {
 
 // Funcție pentru a combina emailurile din variabila de mediu și baza de date
 async function getCombinedAdminEmails() {
-	const dbAdminEmails = await getAdminEmails();
+	let dbAdminEmails = [];
+	try {
+		dbAdminEmails = await getAdminEmails();
+	} catch (error) {
+		console.error('Eroare la obținerea emailurilor adminilor din DB:', error);
+	}
 	const envAdminEmails = process.env.YO_M_L
 		? process.env.YO_M_L.split(',')
 		: []; // Emailurile din variabila de mediu
@@ -35,7 +40,8 @@ export const authOptions = {
 			if (adminEmails.includes(session?.user?.email)) {
 				return session;
 			} else {
-				return false;
+				// Redirectează sau returnează un mesaj de acces interzis
+				return null; // Poți personaliza comportamentul aici
 			}
 		},
 	},
@@ -45,12 +51,14 @@ export default NextAuth(authOptions);
 
 export async function isAdminRequest(req, res) {
 	const session = await getServerSession(req, res, authOptions);
-	const adminEmails = await getCombinedAdminEmails();
+	if (!session?.user?.email) {
+		return res.status(401).json({ error: 'Nu ești autentificat.' });
+	}
 
-	if (!adminEmails.includes(session?.user?.email)) {
-		res
+	const adminEmails = await getCombinedAdminEmails();
+	if (!adminEmails.includes(session.user.email)) {
+		return res
 			.status(401)
 			.json({ error: 'Nu ai permisiunea să accesezi această resursă.' });
-		return;
 	}
 }
