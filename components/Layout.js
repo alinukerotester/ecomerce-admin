@@ -29,7 +29,7 @@ export default function Layout({ children }) {
 
 	return (
 		<div className='bg-bgGray min-h-screen'>
-			<div className='block md:hidden flex items-center justify-center p-4'>
+			<div className='block md:hidden flex items-center justify-between p-4'>
 				<button onClick={() => setShowNav(true)}>
 					<svg
 						xmlns='http://www.w3.org/2000/svg'
@@ -37,7 +37,7 @@ export default function Layout({ children }) {
 						viewBox='0 0 24 24'
 						strokeWidth={1.5}
 						stroke='currentColor'
-						className='size-6'>
+						className='w-6 h-6'>
 						<path
 							strokeLinecap='round'
 							strokeLinejoin='round'
@@ -45,7 +45,7 @@ export default function Layout({ children }) {
 						/>
 					</svg>
 				</button>
-				<div className='flex-grow justify-center mr-6'>
+				<div className='flex-grow flex justify-center items-center'>
 					<Logo />
 				</div>
 			</div>
