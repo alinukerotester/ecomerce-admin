@@ -145,7 +145,7 @@ export default function ProductForm({
 						images.map((image) => (
 							<div
 								key={image.id}
-								className='h-24 w-24 bg-white p-4 shadow-sm relative rounded-sm border border-gray-200 overflow-hidden'>
+								className='h-24 w-24 relative bg-white p-4 shadow-sm rounded-sm border border-gray-200 overflow-hidden'>
 								<Image
 									src={image.src}
 									alt='any image'
