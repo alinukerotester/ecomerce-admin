@@ -145,13 +145,15 @@ export default function ProductForm({
 						images.map((image) => (
 							<div
 								key={image.id}
-								className='h-24 w-24 relative bg-white p-4 shadow-sm rounded-sm border border-gray-200 overflow-hidden'>
-								<Image
-									src={image.src}
-									alt='any image'
-									layout='fill'
-									objectFit='cover'
-								/>
+								className='p-4 bg-white shadow-sm rounded-sm border border-gray-200'>
+								<div className='h-24 w-24 relative overflow-hidden'>
+									<Image
+										src={image.src}
+										alt='any image'
+										layout='fill'
+										objectFit='cover'
+									/>
+								</div>
 							</div>
 						))}
 				</ReactSortable>
@@ -160,23 +162,25 @@ export default function ProductForm({
 						<Spinner />
 					</div>
 				)}
-				<label className='w-24 h-24 cursor-pointer text-center flex flex-col items-center justify-center text-sm gap-1 text-primary rounded-sm bg-white shadow-sm border border-primary'>
-					<svg
-						xmlns='http://www.w3.org/2000/svg'
-						fill='none'
-						viewBox='0 0 24 24'
-						strokeWidth={1.5}
-						stroke='currentColor'
-						className='size-6'>
-						<path
-							strokeLinecap='round'
-							strokeLinejoin='round'
-							d='M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5'
-						/>
-					</svg>
-					<div>Add Image</div>
-					<input type='file' onChange={uploadImages} className='hidden' />
-				</label>
+				<div className='p-4 bg-white shadow-sm rounded-sm border border-primary'>
+					<label className='w-24 h-24 cursor-pointer text-center flex flex-col items-center justify-center text-sm gap-1 text-primary'>
+						<svg
+							xmlns='http://www.w3.org/2000/svg'
+							fill='none'
+							viewBox='0 0 24 24'
+							strokeWidth={1.5}
+							stroke='currentColor'
+							className='size-6'>
+							<path
+								strokeLinecap='round'
+								strokeLinejoin='round'
+								d='M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5'
+							/>
+						</svg>
+						<div>Add Image</div>
+						<input type='file' onChange={uploadImages} className='hidden' />
+					</label>
+				</div>
 			</div>
 			<label>Description</label>
 			<textarea
