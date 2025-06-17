@@ -16,6 +16,7 @@ export default function OrdersPage() {
 				<thead>
 					<tr>
 						<th>Date</th>
+						<th>Paid</th>
 						<th>Recipient</th>
 						<th>Products</th>
 					</tr>
@@ -25,6 +26,7 @@ export default function OrdersPage() {
 						orders.map((order) => (
 							<tr key={order._id}>
 								<td>{new Date(order.createdAt).toLocaleString()}</td>
+								<td>{order.paid ? '✅' : '❌'}</td>
 								<td>
 									{order.name} {order.email}
 									<br />
