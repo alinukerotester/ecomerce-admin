@@ -24,7 +24,7 @@ export default function OrdersPage() {
 					{orders.length > 0 &&
 						orders.map((order) => (
 							<tr key={order._id}>
-								<td>{order.createdAt.replace('T', ' ').substring(0, 19)}</td>
+								<td>{new Date(order.createdAt).toLocaleString()}</td>
 								<td>
 									{order.name} {order.email}
 									<br />
